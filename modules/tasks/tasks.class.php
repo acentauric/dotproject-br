@@ -189,7 +189,7 @@ class CTask extends CDpObject
 				$parents_dependents = explode(',', $current_parent->dependentTasks());
 				$this_intersect = array_intersect($this_dependencies, $parents_dependents);
 				//Any tasks dependent on a dynamic parent task cannot be dependencies of task
-				if (array_sum($this_intersect)) {
+				if (array_sum(array_map("intval", $this_intersect))) {
 					$ids = '(' . implode(',', $intersect) . ')';
 					return array('BadDep_CircularDepOnParentDependent', $ids);
 				}
@@ -199,7 +199,7 @@ class CTask extends CDpObject
 		} // parent
 
 		// Have deps
-		if (array_sum($this_dependencies)) {
+		if (array_sum(array_map("intval", $this_dependencies))) {
 			if ($this->task_dynamic == 1) {
 				return 'BadDep_DynNoDep';
 			}
@@ -237,7 +237,7 @@ class CTask extends CDpObject
 
 			// Task dependencies can not be dependent on this task
 			$intersect = array_intersect($this_dependencies, $this_dependents);
-			if (array_sum($intersect)) {
+			if (array_sum(array_map("intval", $intersect))) {
 				$ids = '(' . implode(',', $intersect) . ')';
 				return array('BadDep_CircularDep', $ids);
 			}

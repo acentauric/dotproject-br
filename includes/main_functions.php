@@ -627,6 +627,10 @@ function formatCurrency($number, $format) {
 	if (empty($format)) {
 		$format = $AppUI->getPref('SHCURRFORMAT');
 	}
+	// dotProject BR: the preference can come back as an array.
+	if (is_array($format)) {
+		$format = (string) reset($format);
+	}
 	// If the requested locale doesn't work, don't fail,
 	// revert to the system default.
 	if (($locale_char_set != 'utf-8' || (setlocale(LC_MONETARY, $format . '.UTF8') !== false))
