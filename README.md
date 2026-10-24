@@ -1,3 +1,37 @@
+# dotProject BR
+
+**dotProject BR** é a continuação brasileira do [dotProject](https://www.dotproject.net/), o gerenciador de projetos livre em PHP e MySQL criado em 2000. Mantido pela comunidade em [dotproject.com.br](https://dotproject.com.br/).
+
+O que este fork faz:
+
+- **Roda em PHP 8.3** (MariaDB/MySQL), mantendo compatibilidade com bancos do dotProject 2.1.x e 2.2.
+- **Português do Brasil** como idioma de primeira classe, a partir da tradução da antiga Comunidade dotProject Brasil (veja `locales/pt_br/CREDITOS.md`).
+- **Atualização de banco por linha de comando**: `php install/upgrade_cli.php` (use `--dry-run` para simular).
+- Correções de compatibilidade com o PHP 8 (gráficos de Gantt, departamentos, tickets, tradução e outras), sempre marcadas no código com `dotProject BR:`.
+- Próximo passo: interface repaginada.
+
+## Rodando localmente
+
+```bash
+docker compose up -d --build     # PHP 8.3 + MariaDB 11.8 em http://localhost:8080
+```
+
+Abra `http://localhost:8080/install/` para uma instalação nova. Para testar com um banco existente, aponte `DP_DADOS` para uma pasta **fora do repositório** com os dumps `.sql` (veja `docker-compose.yml`). Nunca coloque dados reais dentro do repositório.
+
+## Atualizando uma instalação existente
+
+1. Faça backup do banco e da pasta `files/`.
+2. Publique o código novo mantendo `includes/config.php` (troque `dbtype` de `mysql` para `mysqli`) e a pasta `files/`.
+3. Rode `php install/upgrade_cli.php` com o PHP 8.3.
+
+## Licença e créditos
+
+GNU GPL v2, como o dotProject original (veja `COPYING` e `LICENSE.md`). Todo o histórico e a autoria do projeto original estão preservados neste repositório. dotProject BR é um projeto independente da comunidade; o projeto original está em [github.com/dotproject/dotProject](https://github.com/dotproject/dotProject).
+
+---
+
+*Below is the original dotProject README.*
+
 ![dotProject Logo](style/nord/images/favicons/android-chrome-96x96.png)
 # dotProject
 **dotProject** is an open source project management system written in PHP.
