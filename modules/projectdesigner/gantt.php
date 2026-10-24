@@ -318,7 +318,7 @@ if($hide_task_groups) {
 }
 
 $row = 0;
-for($i = 0; $i < count(@$gantt_arr); $i ++ ) {
+for($i = 0; $i < count($gantt_arr ?? array()); $i ++ ) {
 
         $a     = $gantt_arr[$i][0];
         $level = $gantt_arr[$i][1];
@@ -326,16 +326,16 @@ for($i = 0; $i < count(@$gantt_arr); $i ++ ) {
         if($hide_task_groups) $level = 0;
 
         $name = $a['task_name'];
-        if ( $locale_char_set=='utf-8' && function_exists('utf8_decode') ) {
-                $name = utf8_decode($name);
+        if ( false /* dotProject BR: TTF fonts need UTF-8 */ ) {
+                $name = $name;
         }
         $name = strlen( $name ) > 34 ? substr( $name, 0, 33 ).'.' : $name ;
         $name = str_repeat(' ', $level).$name;
 
 		if ($caller == 'todo') {
 			$pname = $a['project_name'];
-	        if ( $locale_char_set=='utf-8' && function_exists('utf8_decode') ) {
-	                $pname = utf8_decode($pname);
+	        if ( false /* dotProject BR: TTF fonts need UTF-8 */ ) {
+	                $pname = $pname;
 	        }
 	        $pname = strlen( $pname ) > 14 ? substr( $pname, 0, 5 ).'...'.substr( $pname, -5, 5 ): $pname ;
 		}

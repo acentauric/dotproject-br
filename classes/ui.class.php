@@ -301,6 +301,8 @@ class CAppUI {
 			$loc = ((@$this->user_prefs['LOCALE']) ? $this->user_prefs['LOCALE']
 			        : dPgetConfig('host_locale'));
 		}
+		// dotProject BR: accept "pt-BR" as well as "pt_BR".
+		$loc = str_replace('-', '_', (string) $loc);
 
 		if (isset($LANGUAGES[$loc])) {
 			$lang = $LANGUAGES[$loc];

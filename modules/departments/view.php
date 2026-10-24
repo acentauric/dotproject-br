@@ -28,7 +28,9 @@ if (isset($_GET['tab'])) {
 }
 $tab = $AppUI->getState('DeptVwTab') !== NULL ? $AppUI->getState('DeptVwTab') : 0;
 
-if ($dept_id > 0) {
+// dotProject BR: in PHP 8 'company_N' > 0 is true (string comparison); require a numeric id.
+$sql = null;
+if (is_numeric($dept_id) && $dept_id > 0) {
 	// pull data
 	$q  = new DBQuery;
 	$q->addTable('companies', 'com');
@@ -43,7 +45,9 @@ if ($dept_id > 0) {
 	$sql = $q->prepare();
 	$q->clear();
 }
-	if (!db_loadHash($sql, $dept)) {
+	if (empty($sql)) {
+		echo $AppUI->_('Please choose a Department first!');
+	} else if (!db_loadHash($sql, $dept)) {
 			$titleBlock = new CTitleBlock('Invalid Department ID', 'users.gif', $m, $m.'.'.$a);
 			$titleBlock->addCrumb('?m=companies', 'companies list');
 			$titleBlock->show();

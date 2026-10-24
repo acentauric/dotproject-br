@@ -165,7 +165,7 @@ if (!empty($start_date) && !empty($end_date)) {
 	// find out DateRange from gant_arr
 	$d_start = new CDate();
 	$d_end = new CDate();
-	for ($i = 0, $xi = count(@$projects); $i < $xi; $i++) {
+	for ($i = 0, $xi = count($projects ?? array()); $i < $xi; $i++) {
 		$start = mb_substr($projects[$i]['project_start_date'], 0, 10);  // confusing... (gwyneth 20210427)
 		$end = mb_substr($projects[$i]['project_end_date'], 0, 10);
 
@@ -187,6 +187,12 @@ if (!empty($start_date) && !empty($end_date)) {
 }
 
 // check day_diff and modify Headers
+// dotProject BR: no project with dates -> show the current month
+if (empty($min_d_start) || empty($max_d_end)) {
+	$min_d_start = new CDate();
+	$max_d_end = new CDate();
+	$max_d_end->addDays(30);
+}
 $day_diff = $max_d_end->dateDiff($min_d_start);
 
 if ($day_diff > 240) {
@@ -211,10 +217,10 @@ if (!is_array($projects) || sizeof($projects) == 0) {
 
 if (is_array($projects)) {
 	foreach ($projects as $p) {
-		if ($locale_char_set=='utf-8' && function_exists('utf8_decode')) {
-			$name = ((mb_strlen(utf8_decode($p['project_name'])) > 25)
-			         ? (mb_substr(utf8_decode($p['project_name']), 0, 22) . '...')
-			         : utf8_decode($p['project_name']));
+		if (false /* dotProject BR: TTF fonts need UTF-8 */) {
+			$name = ((mb_strlen($p['project_name']) > 25)
+			         ? (mb_substr($p['project_name'], 0, 22) . '...')
+			         : $p['project_name']);
 		} else {
 			//while using charset different than UTF-8 we need not to use utf8_deocde
 			$name = ((mb_strlen($p['project_name']) > 25) ? (mb_substr($p['project_name'], 0, 22).'...')

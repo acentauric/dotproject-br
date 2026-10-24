@@ -1,0 +1,22 @@
+##
+## DO NOT MODIFY THIS FILE BY HAND!
+##
+"Access Denied"=>"Acesso Negado",
+"Allowed Companies"=>"Empresas Permitidas",
+"Color Selector"=>"Seletor de Cores",
+"Contacts for"=>"Contatos para",
+"Continue"=>"Continuar",
+"Current Password"=>"Senha Atual",
+"New Password"=>"Nova Senha",
+"Preset"=>"Pré-definido",
+"Repeat New Password"=>"Repetir Nova Senha",
+"View all allowed companies"=>"Ver todas as empresas permitidas",
+"[none]"=>"[nenhum]",
+"accessDeniedMsg"=>"Você tentou acessar um item no dotProject sem privilégios suficientes. Por favor, contate seu Administrador do sistema dotProject.",
+"chgpwLogin"=>"",
+"chgpwUpdated"=>"",
+"chgpwWrongPW"=>"",
+"colorLegend"=>"Escolha uma cor para identificar sua seleção e feche o Seletor de Cores.",
+"nodepartments, companies, permissions"=>"nenhum departamento, empresa ou permissão",
+"notasks"=>"Sem Tarefas disponíveis",
+"submit"=>"enviar",

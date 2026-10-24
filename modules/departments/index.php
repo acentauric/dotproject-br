@@ -25,7 +25,8 @@ $department = (($AppUI->getState('DeptIdxDepartment') !== NULL)
                : (($AppUI->user_department > 0) ? $AppUI->user_department 
                   : ($company_prefix . $AppUI->user_company)));
 
-$canRead = getPermission($m, 'view', $department);
+// dotProject BR: check the item permission only for a real department id (not "company_N").
+$canRead = getPermission($m, 'view', ((mb_strpos($department, $company_prefix) === false) ? (int) $department : null));
 if (!$canRead) {
 	$AppUI->redirect('m=public&a=access_denied');
 }
@@ -34,7 +35,7 @@ $AppUI->savePlace();
 //if $department contains the $company_prefix string that it's requesting a company 
 //and not a department. So, clear the $department variable, and populate the $company_id variable.
 if (!(mb_strpos($department, $company_prefix)===false)) {
-	$company_id = mb_substr($department,mb_strlen($company_prefix));
+	$company_id = (int) mb_substr($department,mb_strlen($company_prefix));
 	$AppUI->setState('DeptIdxCompany', $company_id);
 	unset($department);
 }
@@ -102,7 +103,7 @@ $titleBlock->addCrumb('?m=companies', 'company list');
 if ($company_id) {
 	$titleBlock->addCrumb('?m=companies&amp;a=view&amp;company_id='.$company_id, 'view this company');
 }
-if ($canEdit && $department > 0) {
+if ($canEdit && is_numeric($department) && $department > 0) {
 	$titleBlock->addCrumb('?m=departments&;amp;a=addedit&ampdept_id='.$department, 'edit this department');
 
 	if ($canDelete) {

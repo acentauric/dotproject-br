@@ -1125,7 +1125,8 @@ function seems_utf8($Str) {
 function safe_utf8_decode($string)
 {
 	if (seems_utf8($string)) {
-		return utf8_decode($string);
+		// dotProject BR: utf8_decode() is deprecated since PHP 8.2
+		return mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
 	} else {
 		return $string;
 	}

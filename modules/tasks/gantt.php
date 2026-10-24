@@ -265,7 +265,7 @@ if ($start_date && $end_date) {
 	// find out DateRange from gant_arr
 	$d_start = new CDate();
 	$d_end = new CDate();
-	for ($i = 0; $i < count(@$gantt_arr); $i++) {
+	for ($i = 0; $i < count($gantt_arr ?? array()); $i++) {
 		$a = $gantt_arr[$i][0];
 		$start = mb_substr($a['task_start_date'], 0, 10);
 		$end = mb_substr($a['task_end_date'], 0, 10);
@@ -288,6 +288,12 @@ if ($start_date && $end_date) {
 }
 
 // check day_diff and modify Headers
+// dotProject BR: project without tasks -> show the current month
+if (empty($min_d_start) || empty($max_d_end)) {
+	$min_d_start = new CDate();
+	$max_d_end = new CDate();
+	$max_d_end->addDays(30);
+}
 $day_diff = $max_d_end->dateDiff($min_d_start);
 
 if ($day_diff > 240) {
@@ -362,15 +368,16 @@ if ($hide_task_groups) {
 }
 
 $row = 0;
-for ($i = 0; $i < count(@$gantt_arr); $i ++) {
+$gantt_arr = $gantt_arr ?? array(); // dotProject BR: project without tasks
+for ($i = 0; $i < count($gantt_arr); $i ++) {
 	$a = $gantt_arr[$i][0];
 	$level = $gantt_arr[$i][1];
 	if ($hide_task_groups) {
 		$level = 0;
 	}
 	$name = $a['task_name'];
-	if ($locale_char_set=='utf-8' && function_exists('utf8_decode')) {
-		$name = utf8_decode($name);
+	if (false /* dotProject BR: TTF fonts need UTF-8 */) {
+		$name = $name;
 	}
 	$name = ((mb_strlen($name) > 34) ? (mb_substr($name, 0, 33) . '.') : $name);
 	$name = (str_repeat(' ', $level) . $name);
@@ -381,8 +388,8 @@ for ($i = 0; $i < count(@$gantt_arr); $i ++) {
 			if (function_exists('mb_substr')) {
 				$pname = ((mb_strlen($pname) > 14
 				          ? (mb_substr($pname, 0, 5) . '...' . mb_substr($pname, -5, 5)) : $pname));
-			}  else if (function_exists('utf8_decode')) {
-				$pname = utf8_decode($pname);
+			}  else if (false) {
+				$pname = $pname;
 			}
 		} else {
 			$pname = ((mb_strlen($pname) > 14)

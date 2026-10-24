@@ -12,7 +12,7 @@ if (!defined('DP_BASE_DIR')) {
 */
 function cleanText($text) {
 	//This text file is not utf, its iso so we have to decode/encode
-	$text = utf8_decode($text);
+	$text = mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8'); // dotProject BR: utf8_decode() deprecated
 	$trade = array('�'=>'a','�'=>'a','�'=>'a',
                  '�'=>'a','�'=>'a',
                  '�'=>'A','�'=>'A','�'=>'A',

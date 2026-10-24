@@ -60,12 +60,13 @@ function safe_get_env($name)
 
 // automatically define the base url
 $baseUrl = (((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
-             || $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+             || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') == 'https')
              ? 'https://' : 'http://');
 $baseUrl .= safe_get_env('HTTP_HOST');
 // check if webserver is not running on default port
 // This seems to only apply if using older Apache servers
-if (($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] != 443) && strpos($baseUrl, ':') === FALSE) {
+// dotProject BR: the original test (port != 80 || port != 443) was always true.
+if (!in_array((int) safe_get_env('SERVER_PORT'), array(80, 443), true) && strpos(substr($baseUrl, 8), ':') === FALSE) {
   $baseUrl .= ':' . safe_get_env('SERVER_PORT');
 }
 $pathInfo = safe_get_env('PATH_INFO');

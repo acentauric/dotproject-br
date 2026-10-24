@@ -228,6 +228,12 @@ $q->addTable('tickets');
 $q->addWhere("ticket = '" . $ticket . "'");
 $ticket_info = $q->loadHash();
 
+// dotProject BR: unknown ticket id - show a message instead of failing.
+if (empty($ticket_info)) {
+	echo '<tr><td colspan="2" align="center">' . $AppUI->_('Ticket not found') . '</td></tr></form></table>';
+	return;
+}
+
 print("<input type=\"hidden\" name=\"orig_assignment\" value='" . $ticket_info["assignment"] . "' />\n");
 print("<input type=\"hidden\" name=\"author\" value='" . $ticket_info["author"] . "' />\n");
 print("<input type=\"hidden\" name=\"priority\" value='" . $ticket_info["priority"] . "' />\n");

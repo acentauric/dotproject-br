@@ -44,3 +44,8 @@ Temporary Items
 # Stuff from the Nova editor
 .nova
 .editorconfig
+# dotProject BR: ambiente local
+/docker/logs/
+/includes/config.php
+*.sql.gz
+/lib/htmlpurifier-standalone/standalone/HTMLPurifier/DefinitionCache/Serializer/*/

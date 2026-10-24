@@ -138,6 +138,13 @@ if (isset($_REQUEST['login'])) {
 
 // set the default ui style
 $uistyle = (($AppUI->getPref('UISTYLE')) ? $AppUI->getPref('UISTYLE') : dPgetConfig('host_style'));
+// dotProject BR: fall back when the preferred style is not installed (e.g. old third-party themes).
+foreach (array($uistyle, dPgetConfig('host_style'), 'default') as $candidate) {
+	if ($candidate && is_file(DP_BASE_DIR . '/style/' . basename($candidate) . '/header.php')) {
+		$uistyle = basename($candidate);
+		break;
+	}
+}
 
 // clear out main url parameters
 $m = '';
@@ -215,6 +222,12 @@ $canRead = getPermission($m, 'view');
 $canEdit = getPermission($m, 'edit');
 $canAuthor = getPermission($m, 'add');
 $canDelete = getPermission($m, 'delete');
+
+// dotProject BR: a module that exists on disk but is not installed/active must not run
+// (its tables may not exist). Treat it as access denied.
+if ($m && $m != 'public' && !$AppUI->isActiveModule($m)) {
+	$AppUI->redirect('m=public&a=access_denied');
+}
 
 if (!$suppressHeaders) {
 	// output the character set header
